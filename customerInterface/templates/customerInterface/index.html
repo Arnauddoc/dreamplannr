@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamPlannr</title>
+    <link rel="stylesheet" href="{% static 'customerInterface/style.css' %}">
+</head>
+<body>
+    <header>
+        <h2 class="logo">DreamPlannr</h2>
+        <nav class="navigation"> 
+            <a class="pageLink" href="{% url "home" %}">Home</a>
+            <a class="pageLink" href="{% url "agenda" %}">Agenda</a>
+            <a class="pageLink" href="{% url "todos" %}">To-Do</a>
+            {% if user.is_authenticated %}
+            <a href="{% url "logout" %}" class="btnLogin">Logout</a>
+            {% else %}
+            <a href="{% url "login" %}" class="btnLogin">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="wrapper2">
+        <div class="content">
+            <h3>Your Ultimate Wishlist and Agenda Solution</h3>
+            <p class="text">Are you tired of forgetting important tasks, events, and the things you've always wished for? 
+                Look no further! DreamPlannr is here to revolutionize the way you organize your life. 
+                Our platform combines the power of wishlists and agendas to help you stay on top of your priorities and aspirations effortlessly.
+            </p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footerContent">
+            <div class="privacyLink">
+                <a href="{% url "privacy" %}">Cookies and Privacy Policy</a>
+            </div>
+            <div class="privacyLink">
+                <a href="{% url "terms" %}">Terms and Conditions</a>
+            </div>
+            <div class="copy">
+                <p>copyright &copy;2024 <a href="{% url "agenda" %}">DreamPlannr</a>  </p>
+            </div>
+            <div class="email">
+                <p>dreamplannr@outlook.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
+  

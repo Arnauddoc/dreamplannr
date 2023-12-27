@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamPlannr</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'customerInterface/styleAgenda.css' %}">
+</head>
+<body>
+    <header>
+        <h2 class="logo">DreamPlannr</h2>
+        <nav class="navigation"> 
+            <a class="pageLink" href="{% url "home" %}">Home</a>
+            <a class="pageLink" href="{% url "agenda" %}">Agenda</a>
+            <a class="pageLink" href="{% url "todos" %}">To-Do</a>
+            {% if user.is_authenticated %}
+            <a href="{% url "logout" %}" class="btnLogin">Logout</a>
+            {% else %}
+            <a href="{% url "login" %}" class="btnLogin">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if user.is_authenticated %}
+
+    <div class="addBox">
+        <h2>Add event</h2>
+        <span class="icon-close" onclick="hide()">
+            <ion-icon name="close"></ion-icon>
+        </span>
+        <form action="{% url 'task' %}" method="post" class="form-group">
+            {% csrf_token %}
+            <div class="mainAdd">
+                <div class="general">
+                    <div class="start">
+                        <label>Start date and time:</label>
+                        {{form.start_date}}
+                        {{form.start_time}}
+                    </div>
+                    <div class="end">
+                        <label>End date and time:</label>
+                        {{form.end_date}}
+                        {{form.end_time}}
+                    </div>
+                    <div class="allDay">
+                        <label>All day:</label>
+                        {{form.all_day}}
+                    </div>
+                    <div class="repeat">
+                        <label>Repeat:</label>
+                        {{form.repeat}}
+                    </div>
+                </div>
+                <div class="description">
+                    <div class="title">
+                        <label>Fill in a title</label>
+                        {{form.title}}
+                    </div>
+                    <div class="desc">
+                        <label>Content:</label>
+                        {{form.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="submitDiv">
+                <button type="submit" class="btnAdd">Add</button>
+            </div>
+        </form>
+    </div>
+
+    {% for item in all_events %}
+
+    <div class="editBox" data-task-id="{{ item.id }}">
+        <h2>Edit event</h2>
+        <span class="icon-close" onclick="hideEdit('{{ item.id }}')">
+            <ion-icon name="close"></ion-icon>
+        </span>
+        <form action="{% url 'edit_task' task_id=item.id %}" method="post" class="form-group">
+            {% csrf_token %}
+            <div class="mainAdd">
+                <div class="general">
+                    <div class="start">
+                        <label>Start date and time:</label>
+                        {{form.start_date}}
+                        {{form.start_time}}
+                    </div>
+                    <div class="end">
+                        <label>End date and time:</label>
+                        {{form.end_date}}
+                        {{form.end_time}}
+                    </div>
+                    <div class="allDay">
+                        <label>All day:</label>
+                        {{form.all_day}}
+                    </div>
+                    <div class="repeat">
+                        <label>Repeat:</label>
+                        {{form.repeat}}
+                    </div>
+                    <label><a href="{% url 'delete_task' task_id=item.id %}" class="deleteButton">Delete this event</a>
+                        <ion-icon class="trash" name="trash-outline"></ion-icon></label>
+                </div>
+                <div class="description">
+                    <div class="title">
+                        <label>Fill in a title</label>
+                        {{form.title}}
+                    </div>
+                    <div class="desc">
+                        <label>Content:</label>
+                        {{form.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="submitDiv">
+                <button type="submit" class="btnAdd">Edit</button>
+            </div>
+        </form>
+    </div>
+
+    {% endfor %}
+
+    <div class="main">
+
+        <div id="calendar"></div>
+
+        <div class="right">
+            <div class="calender">
+                <div class="top">
+                    <button class="prevBtn">
+                        <p class="move btnLeft"><</p>
+                    </button>
+                    <div class="yearMonth"></div>
+                    <button class="nextBtn">
+                        <p class="move btnRight">></p>
+                    </button>
+                </div>
+                <div class="days">
+                    <div class="day">Mon</div>
+                    <div class="day">Tue</div>
+                    <div class="day">Wed</div>
+                    <div class="day">Thu</div>
+                    <div class="day">Fri</div>
+                    <div class="day">Sat</div>
+                    <div class="day">Sun</div>
+                </div>
+                <div class="dates"></div>
+            </div> 
+
+            <div class="today">
+                <button class="todayButton"><h2>Today</h2></button>
+            </div>
+            <div class="add">
+                <button class="addButton" onclick="show()"><ion-icon name="add" class="addIcon"></ion-icon><h2>Add event</h2></button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="screen">
+        <p>The devices screen is to small</p>
+    </div>
+    {% else %}
+    <div class="loginContainer">
+        <div class="loginNeeded">
+            <h3>You need to be logged in to see this page</h3>
+        </div>
+        <div class="loginNeededBtn">
+            <a href="{% url "login" %}?next=/agenda" class="NeedLogin">Login Here</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div id="event-tooltip" class="tooltip"></div>
+
+    <script src="{% static "customerInterface/agenda.js" %}"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>  

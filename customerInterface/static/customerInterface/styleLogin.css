@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins","sans-serif";
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: rgb(175, 175, 150);
+    background-size: cover; 
+    background-position: center; 
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+.logo{
+    font-size: 2em;
+    color: white;
+    user-select: none;   
+}
+.navigation a{
+    position: relative;
+    font-size: 1.2 em;
+    font-weight: 900;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+.navigation .btnLogin{
+    width: 130px;
+    height: 50px;
+    padding: 10px;
+    background: transparent;
+    border: 2px solid white;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: white;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: 0.5s;
+}
+
+.navigation a::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: black;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+.navigation a:hover::after{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+.navigation .btnLogin:hover{
+    background: white;
+    color: black;
+}
+
+
+
+
+
+.wrapper{
+    position: relative;
+    width: 550px;
+    height: 460px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform .3s ease ,height .2s ease;
+}
+
+.wrapper.active{
+    height: 590px;
+}
+
+.wrapper.active .loginBox{
+    transition: none;
+    transform: translateX(-550px);
+}
+
+.wrapper.active .loginBox.register{
+    transition: transform .18s ease;
+    transform: translateX(0); 
+}
+
+.wrapper .loginBox {
+    width: 100%;
+    padding: 40px;
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+
+.wrapper .loginBox.register{
+    width: 100%;
+    padding: 40px;
+    position: absolute;
+    transition: none;
+    transform: translateX(550px);
+}
+
+
+.loginBox h2 {
+    font-size: 2em;
+    color: white;
+    text-align: center;
+}
+
+.inputBox{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid black;
+    margin: 30px 0;
+}
+
+.inputBox label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: white;
+    pointer-events: none;
+    transition: .3s;
+}
+
+.inputBox .loginField:focus~label,
+.inputBox .loginField1:focus~label,
+.inputBox .loginField:valid~label,
+.inputBox .loginField1:not(:placeholder-shown)~label{
+    top: -4px;
+}
+
+
+.inputBox .loginField, .loginField1{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: white;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+
+
+.inputBox .icon{
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: black;
+    line-height: 57px;
+}
+.remember{
+    font-size: .9em;
+    color: white;
+    font-weight: 500;
+    margin: 15px 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.remember label input{
+    accent-color: #162938;
+    margin-right: 3px;
+}
+.remember a {
+    color: white;
+    text-decoration: none;
+}
+.remember a:hover{
+    text-decoration: underline;
+}
+
+.btn{
+    width: 100%;
+    height: 45px;
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+}
+.loginRegister{
+    font-size: .9em;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+    cursor: pointer;
+}
+.loginRegister p a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: 1000;
+    font-size: 1em;
+}
+.loginRegister p a:hover{
+    text-decoration: underline;
+}
+
+
+.registerBox h2{
+    font-size: 2em;
+    color: white;
+    text-align: center;
+}
+
+#togglePasswordBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: black;
+    line-height: 57px;
+    outline: none;
+}
+
+.error{
+    color: black;
+    font-size: 0.8em;
+}
+
+@media only screen and (max-width: 868px) {
+    body{
+        background: rgb(175, 175, 150); 
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        padding: 20px 10px;
+        display: block;
+        position: static;
+        width: 100vw;
+    }
+
+    .logo{
+        text-align: center;
+    }
+
+    .navigation .btnLogin{
+        margin-left: 0px;
+        text-align: center;
+    }
+
+    .navigation .btnLogin:hover{
+        color: black;
+        background-color: white;
+    }
+
+    .navigation {
+        display: flex;        
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .navigation a:hover::after{
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    .pageLink {
+        width: 100%;
+        padding: 0px;
+        margin-top: 10px;
+        margin-left: 0px;
+        text-align: center;
+    }
+
+    .navigation a{
+        font-size: 1.7em;
+        margin-left: 0;
+    }
+
+    .wrapper{
+        margin-top: 20px;
+        width: 100dvw;
+    }
+}
+
+
+

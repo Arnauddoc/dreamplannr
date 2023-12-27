@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamPlannr</title>
+    <link rel="stylesheet" href="{% static 'customerInterface/styleLogin.css' %}">
+</head>
+<body>
+    <header>
+        <h2 class="logo">DreamPlannr</h2>
+        <nav class="navigation"> 
+            <a class="pageLink" href="{% url "home" %}">Home</a>
+            <a class="pageLink" href="{% url "agenda" %}">Agenda</a>
+            <a class="pageLink" href="{% url "todos" %}">To-Do</a>
+            {% if user.is_authenticated %}
+            <a href="{% url "logout" %}" class="btnLogin">Logout</a>
+            {% else %}
+            <a href="{% url "login" %}" class="btnLogin">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if registration_errors %}
+    <div class="wrapper active">
+    {% else %}
+    <div class="wrapper">
+    {% endif %}
+
+        <div class="loginBox">
+            <h2>Login</h2>
+            <form action="{% url 'userLogin' %}?next={{ request.GET.next }}" method="post" class="form-group">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    {{ form1.username }}
+                    <label>Username</label>
+                </div>
+                
+                <div class="inputBox">
+                    <span class="icon">
+                        <button type="button" id="togglePasswordBtn">
+                            <ion-icon class="eyeIcon" name="eye"></ion-icon>
+                        </button>
+                    </span>
+                    {{ form1.password }}
+                    <label>Password</label>
+                    {% if error %}
+                        <p class="error">Invalid username or password</p>
+                    {% endif %}
+                </div>
+                
+                <div class="remember">
+                    <label>{{form1.remember_me}}Remember me</label>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <div class="loginRegister">
+                <p>Don't have an account <a  class="registerLink">Register</a></p>
+            </div>
+        </div>
+
+
+        <div class="loginBox register">
+            <h2>Registration</h2>
+            <form method="POST"  action="{% url 'userRegister' %}" class="form-group">
+                {% csrf_token %}
+                <div class="inputBox" {% if form.username.value %}valid{% endif %}>
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" name="{{ form.username.name }}" class="loginField1" placeholder=""
+                    {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
+                    <label>Username</label>
+                    {% for error in form.username.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                
+                <div class="inputBox">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    {{ form.password1 }}
+                    <label>Password</label>
+                    {% for error in form.password1.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+        
+                <div class="inputBox">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    {{ form.password2 }}
+                    <label>Password</label>
+                    {% for error in form.password2.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="remember">
+                    <label><input type="checkbox" required=True> I agree to the terms and conditions
+                    </label>
+                    <label>View terms <b><a class="hereLink" href="{% url "terms" %}">here</a></b></label>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+            <div class="loginRegister">
+                <p>Already have an account <a class="loginLink">Login</a></p>
+            </div>            
+        </div>
+    
+    </div>
+
+    <script src="{% static "customerInterface/app.js" %}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

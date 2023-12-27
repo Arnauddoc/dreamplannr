@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamPlannr</title>
+    <link rel="stylesheet" href="{% static 'customerInterface/styleWhishlist.css' %}">
+</head>
+<body>
+    <header>
+        <h2 class="logo">DreamPlannr</h2>
+        <nav class="navigation"> 
+            <a class="pageLink" href="{% url "home" %}">Home</a>
+            <a class="pageLink" href="{% url "agenda" %}">Agenda</a>
+            <a class="pageLink" href="{% url "todos" %}">To-Do</a>
+            {% if user.is_authenticated %}
+            <a href="{% url "logout" %}" class="btnLogin">Logout</a>
+            {% else %}
+            <a href="{% url "login" %}" class="btnLogin">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if user.is_authenticated %}
+
+    <div class="toDoBox">
+        <h2>Add To-Do</h2>
+        <span class="icon-close" onclick="hide()">
+            <ion-icon name="close"></ion-icon>
+        </span>
+        <form action="{% url "toDo" %}" method="post" class="form-group">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Title:</label>
+                {{ form.title }}
+            </div>
+            <div class="form-group">
+                <label>Content:</label>
+                {{ form.content }}
+            </div>
+            <div class="form-group">
+                <label>End date:</label>
+                {{ form.end_date }}
+            </div>
+            {% if error %}
+                <p>Something went wrong</p>
+            {% endif %}
+            <button type="submit" class="btnAdd">Add</button>
+        </form>
+    </div>
+
+    <div class="toDo">
+        <div class="bar">
+            <h1>To-Do List</h1>
+            <div class="add">
+                <button class="addButton" onclick="show()"><ion-icon name="add" class="addIcon"></ion-icon><h2>Add To-Do</h2></button>
+            </div>
+        </div>
+        <div class="todos">
+            <ul class="todoList">
+                {% for item in todo %}
+                    <div class="toDoBox edit" data-todo-id="{{ item.id }}">
+                        <h2>Edit To-Do</h2>
+                        <span class="icon-close" onclick="hideEdit('{{ item.id }}')">
+                            <ion-icon name="close"></ion-icon>
+                        </span>
+                        <form action="{% url 'edit_todo' todo_id=item.id %}" method="post" class="form-group">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Title:</label>
+                                {{ form.title }}
+                            </div>
+                            <div class="form-group">
+                                <label>Content:</label>
+                                {{ form.content }}
+                            </div>
+                            <div class="form-group">
+                                <label>End date:</label>
+                                {{ form.end_date }}
+                            </div>
+                            {% if error %}
+                                <p>Something went wrong</p>
+                            {% endif %}
+                            <button type="submit" class="btnAdd">Edit</button>
+                        </form>
+                    </div>
+                    <li class="todoItem">
+                        <div class="todoContent">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.content|linebreaks }}</p>
+                            <span class="dueDate">Due: {{ item.end_date }}</span>
+                        </div>
+                        <div class="todoActions">
+                            <a href="{% url 'delete_todo' todo_id=item.id %}" class="deleteButton">Finished this task</a>
+                            <button onclick="showEdit('{{ item.id }}', '{{ item.title }}', '{{ item.content|escapejs }}',
+                             '{{ item.end_date }}')" class="editButton">Edit</button>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="noTodos">Nothing to do?</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    {% else %}
+    <div class="loginContainer">
+        <div class="loginNeeded">
+            <h3>You need to be logged in to see this page</h3>
+        </div>
+        <div class="loginNeededBtn">
+            <a href="{% url "login" %}?next=/whishlist" class="NeedLogin">Login Here</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <script src="{% static "customerInterface/app.js" %}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

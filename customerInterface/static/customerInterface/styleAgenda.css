@@ -1,0 +1,638 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins","sans-serif";
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: rgb(175, 175, 150);
+    background-size: cover; 
+    background-position: center; 
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+.logo{
+    font-size: 2em;
+    color: white;
+    user-select: none;   
+}
+.navigation a{
+    position: relative;
+    font-size: 1.2 em;
+    font-weight: 900;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.navigation .btnLogin{
+    width: 130px;
+    padding: 10px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid white;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: white;
+    font-weight: 500;
+    margin-left: 40px;
+    transition: 0.5s;
+}
+
+.navigation a::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: black;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+.navigation a:hover::after{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+.navigation .btnLogin:hover{
+    background: white;
+    color: black;
+}
+
+
+.loginContainer{
+    position: relative;
+    width: 550px;
+    height: 240px;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    display: none;
+    z-index: 999;
+}
+
+.trash{
+    color: white;
+    font-size: 1.4em;
+}
+
+.loginNeeded{
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
+}
+
+.NeedLogin{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.loginNeededBtn{
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30%;
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.main{
+    display: flex;
+    margin-top: 60px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.right{
+    width: 26vw;
+}
+
+.calender{
+    margin-top: 14px;
+    width: 380px;
+    height: 360px;
+    padding: 10px;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+}
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.top button{
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 0 4px rgb(0, 0, 0, 0.2);
+}
+
+.top button p{
+    font-size: 1.5em;
+}
+
+.days{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+}
+
+.day{
+    padding: 5px;
+    text-align: center;
+}
+
+.dates{
+    gap: 2px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.date{
+    display: flex;
+    padding: 10px;
+    margin: auto;
+    cursor: pointer;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.date:hover,
+.date.active{
+    background: rgb(175, 175, 150);
+    color: white;
+}
+
+.date.inactive{
+    color: #a59696;
+}
+
+.date.inactive:hover{
+    color: white;
+}
+
+
+.addBox{
+    position: fixed;
+    background-color: rgb(175, 175, 150);
+    width: 55vw;
+    height: 70vh;
+    border: 4px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .3s ease ,height .2s ease;
+    z-index: 10;
+}
+
+.editBox{
+    position: fixed;
+    background-color: rgb(175, 175, 150);
+    width: 55vw;
+    height: 70vh;
+    border: 4px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .3s ease ,height .2s ease;
+    z-index: 6;
+}
+
+.dateField{
+    width: 70%;
+    font-size: 1.2em;
+}
+
+.timeField{
+    font-size: 1.2em;
+}
+
+.submitDiv{
+    display: flex;
+    justify-content: center;
+}
+
+.general, .description{
+    width: 50%;
+    margin: 10px;
+}
+
+.repeat, .allDay{
+    margin-top: 10px;
+}
+
+.description label{
+    font-size: 1.3em;
+}
+
+.mainAdd{
+    display: flex;
+    margin: 20px;
+}
+
+.general label{
+    width: 30%;
+    font-size: 1.3em;
+}
+
+.addBox h2,.editBox h2{
+    text-align: center;
+    font-size: 3em;
+}
+
+.taskField{
+    font-size: 1.3em;
+    width: 100%;
+    resize: none;
+}
+
+.addBox.show, .editBox.show{
+    transform: scale(1);
+}
+
+.icon-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.btnAdd, .todayButton{
+    width: 100%;
+    height: 27px;
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    position: relative;
+    margin-top: 17px;
+}
+
+.btnAdd{
+    margin-top: 0px;
+    justify-self: center;
+    width: 90%;
+    font-size: 1.6em;
+    height: 40px;
+}
+
+.todayButton{
+    height: 40px;
+    width: 380px;
+}
+
+.addButton{
+    cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: transparent;
+    border: none;
+    width: 100%;
+    height: 80px;
+    font-size: 2em;
+    color: white;
+    line-height: 40px;
+    border: 1px solid white;
+    border-radius: 15px;
+    padding-right: 10px;
+}
+
+.addButton:hover{
+    background-color: white;
+    color: black;
+}
+
+.addIcon{
+    font-size: 2em;
+}
+
+.add{
+    margin-top: 30px;
+    width: 380px;
+}
+
+.deleteButton{
+    text-decoration: none;
+    font-size: 2em;
+    color: white;
+}
+
+#calendar{
+    width: 62vw;
+    margin-right: 70px;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0.5em;
+}
+
+.fc .fc-button-primary {
+    background-color: black;
+    color: white;
+}
+
+.fc .fc-button {
+    display: inline-block;
+    font-size: 0.8em;
+    font-weight: 400;
+    line-height: 0.8em;
+    padding: 0.4em 0.65em;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+}
+
+.screen{
+    display: none;
+}
+
+@media only screen and (max-width: 500px) {
+    body{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .screen{
+        display: block;
+        font-size: 1.2em;
+    }
+
+    .navigation a:hover::after{
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    .main{
+        display: none;
+    }
+
+    header {
+        padding: 20px 10px;
+        width: 100vw;
+        position: static;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .logo{
+        text-align: center;
+    }
+
+    .loginContainer{
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 100%;
+    }
+
+    .loginNeeded{
+        font-size: 1.1em;
+    }
+
+    .navigation .btnLogin{
+        margin-left: 0px;
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+    .navigation .btnLogin:hover{
+        color: black;
+        background-color: white;
+    }
+
+    .navigation {
+        display: flex;        
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .pageLink {
+        width: 100%;
+        padding: 0px;
+        margin-top: 10px;
+        margin-left: 0px;
+        text-align: center;
+    }
+
+    .navigation a{
+        font-size: 1.7em;
+        margin-left: 0;
+    }
+
+    .screen{
+        margin-top: 100px;
+    }
+}
+
+@media only screen and (max-width: 868px) and (min-width: 500px) {
+    body{
+        background: rgb(175, 175, 150); 
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        padding: 20px 10px;
+        display: block;
+        width: 100vw;
+        position: static;
+    }
+
+    .logo{
+        text-align: center;
+    }
+
+    .navigation .btnLogin{
+        margin-left: 0px;
+        text-align: center;
+    }
+
+    .navigation .btnLogin:hover{
+        color: black;
+        background-color: white;
+    }
+
+    .navigation {
+        display: flex;        
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .pageLink{
+        width: 100%;
+        padding: 0px;
+        margin-top: 10px;
+        margin-left: 0px;
+        text-align: center;
+    }
+
+    .navigation a{
+        font-size: 1.7em;
+        margin-left: 0;
+    }
+
+    .loginContainer{
+        position: relative;
+        width: 390px;
+        height: 240px;
+        margin-top: 60px;
+    }
+    
+    .loginNeeded{
+        display: flex;
+        justify-content: center;
+        text-justify: center;
+        font-size: 1.5em;
+    }
+
+    #calendar{
+        width: 90vw;
+        margin-left: 30px;
+    }
+
+    .calender {
+        display: none;
+    }
+
+    .main{
+        margin-top: 300px;
+        max-height: calc(100vh - 300px);
+        display: block;
+    }
+
+    .right{
+        display: flex;
+        align-items: center;
+        width: 100vw;
+        flex-direction: column;
+    }
+
+    .today{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .add{
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 1250px) and (min-width: 864px) {
+    .calender {
+        display: none;
+    }
+
+    .main{
+        max-height: calc(100vh - 300px);
+        display: block;
+    }
+
+    #calendar{
+        width: 90vw;
+        margin-left: 30px;
+    }
+
+    .addBox{
+        width: 55vw;
+        height: 70vh;
+    }
+
+    .right{
+        display: flex;
+        align-items: center;
+        width: 100vw;
+        flex-direction: column;
+    }
+
+    .today{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .add{
+        width: 40%;
+    }
+}
+
+@media only screen and (min-height: 1100px) {
+    .editBox{
+        height: 60vh;
+    }
+}
+
+@media only screen and (max-height: 850px) {
+    .editBox{
+        height: 80vh;
+    }
+    .editBox label{
+        font-size: 1em;
+    }
+}
